@@ -1,5 +1,13 @@
 # drone
-Controlling AR drone 2 using Playstation 3 Controller, 2 Gloves and an Android Phone
+Controlling AR drone 2.0 using:
 
-Credits:
-  Kostantinos Plaskasovitis
+* Gloves equipped with accelerometers and a flex sensor (connected via USB and programmed using a Arduino)
+
+* Playstation 3 Controller (connected via bluetooth and handled communication as an HID device)
+
+* Android Phone (connected via bluetooth serial port)
+
+
+Collaborators:
+  Konstantinos Plaskasovitis,
+  Konstantinos Tsalikidis
