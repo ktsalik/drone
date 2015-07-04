@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html ng-app="droneApp">
+  <head>
+    <link href="angular-material/angular-material.min.css" rel="stylesheet">
+  </head>
+  <body ng-controller="Application" layout="column">
+    
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <md-icon md-svg-src="/img/ps3Controller.svg" style="height:60%;width:5%;"></md-icon>
+        <div ng-show="controller.status.charging" layout="row">
+          <md-progress-circular class="md-warn" md-mode="indeterminate" style="width:50px;"></md-progress-circular>
+          <span class="md-caption">Charging</span>
+        </div>
+        <div ng-show="!controller.status.charging" flex=20>
+          <md-progress-linear class="md-warn" md-mode="buffer" value="{{controller.status.battery}}"></md-progress-linear>
+          <span class="md-caption">{{ controller.status.battery }}%</span>
+        </div>
+        <span flex></span>
+        <md-icon md-svg-src="/img/quadcopter.svg" style="height:70%;width:5%;"></md-icon>
+        <div ng-show="drone.battery" flex=20>
+          <md-progress-linear class="md-warn" md-mode="buffer" value="{{drone.battery}}"></md-progress-linear>
+          <span class="md-caption">{{ drone.battery }}%</span>
+        </div>
+      </div>
+    </md-toolbar>
+    
+    <div layout="row" layout-align="center" class="md-whiteframe-z1">
+      <div id="drone-stream"></div>
+    </div>
+    
+    <div layout="row">
+      <!-- LEFT GAUNTLET -->
+      <div flex="33"  class="md-whiteframe-z3">
+        <div flex="100" class="md-headline" style="text-align:center;" layout-padding><img src="/img/left-gauntlet.png" style="width:50px;"></div>
+        <div layout="row">
+          <div flex="30"></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">↑</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.up}}"></md-progress-linear>
+          </div>
+        </div>
+        <div layout="row">
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">←</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.rLeft}}"></md-progress-linear>
+          </div>
+          <div flex></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">→</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.rRight}}"></md-progress-linear>
+          </div>
+        </div>
+        <div layout="row">
+          <div flex="30"></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">&nbsp;</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.down}}"></md-progress-linear>
+            <p style="font-size:30px;text-align:center;margin:0px;">↓</p>
+          </div>
+        </div>
+      </div>
+      <div flex="33" layout-padding>
+        Speed: {{drone.speed * 100 | number: 0}}%
+        <md-progress-linear md-mode="determinate" ng-value="drone.speed * 100"></md-progress-linear>
+      </div>
+      <!-- RIGHT GAUNTLET -->
+      <div flex="33"  class="md-whiteframe-z3">
+        <div flex="100" class="md-headline" style="text-align:center;" layout-padding><img src="/img/right-gauntlet.png" style="width:50px;"></div>
+        <div layout="row">
+          <div flex="30"></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">↑</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.top}}"></md-progress-linear>
+          </div>
+        </div>
+        <div layout="row">
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">←</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.left}}"></md-progress-linear>
+          </div>
+          <div flex></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">→</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.right}}"></md-progress-linear>
+          </div>
+        </div>
+        <div layout="row">
+          <div flex="30"></div>
+          <div flex="40">
+            <p style="font-size:30px;text-align:center;margin:0px;">&nbsp;</p>
+            <md-progress-linear class="md-warn" md-mode="buffer" value="{{gauntlet.bottom}}"></md-progress-linear>
+            <p style="font-size:30px;text-align:center;margin:0px;">↓</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--
+    <div layout="row" layout-margin>
+      <div flex="50" layout="row" layout-padding>
+        <span class="md-title">Velocity</span>
+        <md-slider flex min="0" max="100" ng-model="controller.status.battery" class="md-primary"></md-slider>
+        {{controller.status.battery}}%
+      </div>
+    </div>
+    {{drone}}
+    -->
+    <script src="angular/angular.min.js"></script>
+    <script src="angular-socket-io/socket.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers.js"></script>
+    <script src="services.js"></script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="angular-animate/angular-animate.min.js"></script>
+    <script src="angular-aria/angular-aria.min.js"></script>
+    <script src="angular-material/angular-material.min.js"></script>
+    
+    <script src="/dronestream/nodecopter-client.js"></script>
+    <script>
+      // video canvas will auto-size to the DOM-node, or default to 640*360 if no size is set.
+      new NodecopterStream(document.getElementById("drone-stream"));
+    </script>
+  </body>
+</html>
